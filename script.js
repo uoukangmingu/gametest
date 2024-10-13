@@ -421,14 +421,25 @@ function createCtrlButton() {
     buttonContainer.style.justifyContent = 'center';
     buttonContainer.style.marginTop = '20px';
 
-    const button = document.createElement('button');
-    button.textContent = 'Ctrl';
-    button.style.padding = '15px 30px';
-    button.style.fontSize = '20px';
-    button.addEventListener('click', handleCtrlPress);
-    buttonContainer.appendChild(button);
+const button = document.createElement('button');
+button.textContent = 'Ctrl';
+button.classList.add('mobile-button');
+button.classList.add('pressed'); // 버튼 클릭 시 'pressed' 클래스 추가
+button.style.padding = '15px 30px';
+button.style.fontSize = '20px';
+button.style.backgroundColor = 'var(--retro-dark-green)';
+button.style.color = 'var(--retro-beige)';
+button.style.border = '2px solid var(--retro-black)';
+button.style.borderRadius = '0'; // 사각형 버튼 모양
+button.style.boxShadow = '3px 3px 0 var(--retro-black)';
+button.addEventListener('click', () => {
+    handleCtrlPress();
+    button.classList.add('pressed');
+    setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
+});
+buttonContainer.appendChild(button);
 
-    document.getElementById('game-container').appendChild(buttonContainer);
+document.getElementById('game-container').appendChild(buttonContainer);
 }
 
 function handleCtrlPress() {
