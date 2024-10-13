@@ -533,44 +533,6 @@ function startSpinMode() {
     document.getElementById('keys-display').style.display = 'none';
     document.getElementById('directions-display').style.display = 'none';
     document.getElementById('point-game').style.display = 'none';
-
-    if (isMobileDevice()) {
-        const spinArea = document.getElementById('spin-area');
-        let isDragging = false;
-        let startAngle = 0;
-        let currentAngle = 0;
-
-        spinArea.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            isDragging = true;
-            const touch = e.touches[0];
-            startAngle = Math.atan2(touch.pageY - spinArea.offsetTop, touch.pageX - spinArea.offsetLeft);
-        });
-
-        spinArea.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            if (!isDragging) return;
-            const touch = e.touches[0];
-            const angle = Math.atan2(touch.pageY - spinArea.offsetTop, touch.pageX - spinArea.offsetLeft);
-            const angleDiff = angle - startAngle;
-            currentAngle += angleDiff;
-            startAngle = angle;
-
-            const degrees = (currentAngle * 180) / Math.PI;
-            document.getElementById('spinner').style.transform = `rotate(${degrees}deg)`;
-
-            if (Math.abs(degrees - targetDegree) < 5) {
-                playClearSound();
-                startRound();
-            }
-        });
-
-        spinArea.addEventListener('touchend', () => {
-            isDragging = false;
-        });
-    } else {
-        document.getElementById('spin-area').addEventListener('mousemove', handleSpinMode);
-    }
 }
 
 function handleSpinMode(event) {
@@ -652,7 +614,6 @@ function startRound() {
         'mobile-buttons',
         'mobile-direction-buttons',
         'mobile-ctrl-button',
-        'joystick-container',
         'mobile-hacking-buttons',
         'mobile-spacebar-button'
     ];
@@ -671,11 +632,6 @@ function startRound() {
             createDirectionButtons();
         } else if (gameMode === 'typing') {
             createCtrlButton();
-        } else if (gameMode === 'spin') {
-            createJoystick();
-            joystickContainer.addEventListener('touchstart', handleJoystickTouch);
-            joystickContainer.addEventListener('touchmove', handleJoystickTouch);
-            joystickContainer.addEventListener('touchend', handleJoystickTouch);
         } else if (gameMode === 'hacking') {
             createHackingButtons();
         } else if (gameMode === 'precisionTime') {
