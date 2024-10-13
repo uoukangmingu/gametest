@@ -1,0 +1,142 @@
+﻿﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Focus Game - Test your reaction time and concentration skills!">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>    
+    <title>Focus Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="main-screen">
+        <button id="tutorial-button" class="retro-button"><span>Tutorial</span></button>
+        <button id="play-button" class="retro-button">PLAY</button>
+
+        <div id="difficulty-buttons" style="display: none;">
+            <button class="difficulty-btn" data-time="6000">EASY</button>
+            <button class="difficulty-btn" data-time="3000">NORMAL</button>
+            <button class="difficulty-btn" data-time="1500">HARD</button>
+        </div>
+<div id="tutorial-container" style="display: none;">
+  <h2>Tutorial</h2>
+  <div id="tutorial-content"></div>
+  <div class="tutorial-buttons">
+    <button id="past-step">Past◀</button>
+    <button id="next-step">Next▶</button>
+    <button id="close-tutorial">Close</button>
+  </div>
+</div>
+
+        <div id="volume-control-container">
+            <span id="volume-label">VOLUME</span>
+            <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="1" aria-label="Volume Control">
+        <div id="screen-controls"> <button id="fullscreen"> </button> </div>
+        </div>
+        <div id="main-leaderboard">
+            <h3>Top 10 Scores</h3>
+            <h5></h5>
+            <ol id="main-score-list"></ol>
+        </div>
+    </div>
+    <div id="countdown" style="display: none;">
+        <h2>FOCUS</h2>
+        <div id="countdown-number"></div>
+    </div>
+    <div id="logo-animation" style="display: none;">
+        <div id="focus">FOCUS</div>
+        <div id="game">GAME</div>
+    </div>
+    <div id="game-container" style="display: none;">
+        <div id="mode-display"></div>
+        <div id="keys-display"></div>
+<div id="ascend" class="game-mode" style="display: none;">
+    <!-- 여기에 점들이 동적으로 추가될 거야 -->
+</div>
+
+        <div id="directions-display"></div>
+<div id="rps-game" class="game-mode">
+    <div id="rps-display"></div>
+    <div id="rps-instruction"></div>
+    <div id="rps-buttons">
+        <button id="rock">rock</button>
+        <button id="scissors">scissors</button>
+        <button id="paper">paper</button>
+    </div>
+</div>
+
+
+<div id="hacking-mode" class="game-mode">
+    <h2>Hacking Mode</h2>
+    <div id="hacking-progress-bar">
+        <div id="hacking-progress"></div>
+    </div>
+    <p id="hacking-display">Hack Progress: 0/30</p>
+</div>
+<div id="precision-time-game" style="display: none;">
+    <div id="pt-bar">
+        <div id="pt-cursor"></div>
+        <div id="pt-target"></div>
+    </div>
+</div>
+
+        <div id="point-game" style="display: none;">
+            <div id="target"></div>
+        </div>
+<div id="spin-game" style="display: none;">
+    <div id="spin-area">
+        <div id="spin-target"></div>
+        <div id="spin-indicator"></div>
+        <div id="spin-direction">시계 방향</div>
+    </div>
+    <div id="spin-count">Spins : <span id="current-spins">0</span> / <span id="required-spins">0</span></div>
+</div>
+
+<div id="color-game" style="display: none;"></div>
+
+        <div id="timer-bar"></div>
+        <div id="score">Score: <span id="score-value">0</span></div>
+    </div>
+<audio id="clear-sound">
+    <source src="sounds/MP_띠링! 이목 집중시키는 소리.mp3" type="audio/mpeg">
+</audio>
+<audio id="hover-sound">
+    <source src="sounds/MP_게임 효과음 5 (뽀잉 점프).mp3" type="audio/mpeg">
+</audio>
+<audio id="countdown-sound">
+    <source src="sounds/MP_사보타지 효과음.mp3" type="audio/mpeg">
+</audio>
+<audio id="lost-sound">
+    <source src="sounds/MP_나쁜 이벤트(뿌뿌뿌뿌뿌).mp3" type="audio/mpeg">
+</audio>
+
+<audio id="easy-music" loop>
+    <source src="sounds/MP_8bit 게임 세상.mp3" type="audio/mpeg">
+</audio>
+<audio id="normal-music" loop>
+    <source src="sounds/MP_오락실과 나.mp3" type="audio/mpeg">
+</audio>
+<audio id="hard-music" loop>
+    <source src="sounds/MP_보너스 타임.mp3" type="audio/mpeg">
+</audio>
+<audio id="buttonSound" src="sounds/MP_스페이스바 터치음2(딸깍).mp3">
+</audio>
+
+
+    <div id="game-over" style="display: none;">
+    <h1>GAME OVER!</h1>
+    <p>Your Score: <span id="final-score"></span></p>
+    <button id="restart-button">Restart</button>
+    <button id="main-menu-button">Main Menu</button>
+    <button id="register-score-button">Score Record</button>
+</div>
+
+<!-- 점수판 추가 -->
+<div id="leaderboard" style="display: none;">
+    <h2>Score Board</h2>
+    <ul id="score-list"></ul>
+    <button id="close-leaderboard">Close</button>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>
