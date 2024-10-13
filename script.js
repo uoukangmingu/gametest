@@ -10,6 +10,10 @@ const directions = ['left', 'up', 'right', 'down'];
 let usedKeys = [];
 let currentMusic = null;
 
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
 function enforcePortraitMode() {
     if (isMobileDevice()) {
         const lockPortraitOrientation = () => {
@@ -574,7 +578,7 @@ function switchGameMode() {
     
     if (isMobileDevice()) {
         // 모바일에서는 'spin', 'hacking' 모드 제외
-        const availableModes = modes.filter(mode => !recentModes.includes(mode));
+        const availableModes = modes.filter(mode => mode !== 'hacking' && !recentModes.includes(mode));
         gameMode = availableModes[Math.floor(Math.random() * availableModes.length)];
     } else {
         // 데스크톱에서는 모든 모드 포함
@@ -587,10 +591,6 @@ function switchGameMode() {
     if (recentModes.length > RECENT_MODES_TO_REMEMBER) {
         recentModes.shift();
     }
-}
-
-function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
 
