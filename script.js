@@ -1329,7 +1329,9 @@ const computerChoice = choices[Math.floor(Math.random() * 3)];
 const instruction = instructions[Math.floor(Math.random() * 3)];
 
 const rpsGame = document.getElementById('rps-game');
-rpsGame.style.display = 'flex';
+    rpsGame.style.display = 'flex';
+    rpsGame.style.flexDirection = 'column'; // 세로 레이아웃으로 변경
+    rpsGame.style.alignItems = 'center';
 
 document.getElementById('rps-display').textContent = computerChoice;
 document.getElementById('rps-instruction').textContent = instruction;
@@ -1373,4 +1375,3 @@ function handleRPSChoice(playerChoice, computerChoice, instruction) {
         gameOver();
     }
 }
-
