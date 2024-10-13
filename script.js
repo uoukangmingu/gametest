@@ -636,14 +636,6 @@ function startRound() {
         } else if (gameMode === 'precisionTime') {
             createSpaceBarButton();
         }
-    } else {
-        if (gameMode === 'spin') {
-            document.getElementById('spin-game').style.display = 'block';
-            document.getElementById('spin-area').addEventListener('mousemove', handleSpinMode);
-        } else {
-            document.getElementById('spin-game').style.display = 'none';
-            document.getElementById('spin-area').removeEventListener('mousemove', handleSpinMode);
-        }
     }
     if (gameMode === 'keys') {
         displayKeys();
