@@ -699,7 +699,7 @@ function startRound() {
     mobileButtonContainers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
-            container.remove();
+            container.innerHTML = ''; // 버튼들을 모두 제거
         }
     });
 
