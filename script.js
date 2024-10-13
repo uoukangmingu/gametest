@@ -278,7 +278,7 @@ function createDirectionButtons() {
 button.addEventListener('click', () => {
 handleDirectionPress(dir);
 button.classList.add('pressed');
-setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
+setTimeout(() => button.classList.remove('pressed'), 100); 
 });
 buttonContainer.appendChild(button);
 });
@@ -1135,17 +1135,20 @@ function createSpaceBarButton() {
 const button = document.createElement('button');
 button.textContent = 'SPACE';
 button.classList.add('mobile-button');
+button.classList.add('pressed'); // 버튼 클릭 시 'pressed' 클래스 추가
 button.style.padding = '15px 50px';
 button.style.fontSize = '20px';
-button.style.backgroundColor = '#4CAF50';
-button.style.color = 'white';
-button.style.border = 'none';
-button.style.borderRadius = '5px';
+button.style.backgroundColor = 'var(--retro-dark-green)'; // 레트로 스타일의 색상 적용
+button.style.color = 'var(--retro-beige)';
+button.style.border = '2px solid var(--retro-black)';
+button.style.borderRadius = '0'; // 사각형 버튼 모양
+button.style.boxShadow = '3px 3px 0 var(--retro-black)';
 button.addEventListener('click', () => {
     handlePrecisionTimeSpacePress();
     button.classList.add('pressed');
-    setTimeout(() => button.classList.remove('pressed'), 200);
+    setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
 });
+
 
     
     buttonContainer.appendChild(button);
