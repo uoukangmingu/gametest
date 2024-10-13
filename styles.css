@@ -871,12 +871,12 @@ body.hacking-mode {
 }
 
 #focus {
-    top: 40%;
+    top: 35%;
     color: var(--retro-beige);
 }
 
 #game {
-    top: 60%;
+    top: 55%;
     color: var(--retro-light-green);
 }
 
@@ -947,7 +947,7 @@ body.hacking-mode {
     transform: scale(0.95);
 }
 
-.mobile-spacebar-button, .mobile-buttons, .mobile-direction-buttons {
+.mobile-button {
     background-color: var(--retro-dark-green);
     color: var(--retro-beige);
     border: 2px solid var(--retro-black);
@@ -960,7 +960,7 @@ body.hacking-mode {
     transition: all 0.1s ease;
 }
 
-.mobile-spacebar-button, .mobile-buttons, .mobile-direction-buttons:active {
+.mobile-button:active {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0 var(--retro-black);
 }

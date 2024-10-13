@@ -218,7 +218,8 @@ function createMobileButtons() {
         button.style.fontSize = '20px';
         button.addEventListener('click', () => {
             handleMobileKeyPress(letter);
-            button.classList.add('pressed');  // 클래스 추가
+            button.classList.add('pressed'); 
+            button.classList.add('mobile-button');
             setTimeout(() => button.classList.remove('pressed'), 200);  // 200ms 후 클래스 제거
         });
         buttonContainer.appendChild(button);
@@ -273,6 +274,7 @@ function createDirectionButtons() {
         button.style.gridArea = dir;
         button.addEventListener('click', () => handleDirectionPress(dir));
         buttonContainer.appendChild(button);
+        button.classList.add('mobile-button');
     });
 
     document.getElementById('game-container').appendChild(buttonContainer);
