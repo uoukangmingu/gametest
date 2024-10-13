@@ -219,6 +219,7 @@ function createMobileButtons() {
         button.style.fontSize = '20px';
         button.addEventListener('click', () => {
             handleMobileKeyPress(letter);
+            playButtonSound();
             button.classList.add('pressed'); 
             button.classList.add('mobile-button');
             setTimeout(() => button.classList.remove('pressed'), 200);  // 200ms 후 클래스 제거
@@ -277,6 +278,7 @@ function createDirectionButtons() {
         button.style.gridArea = dir;
 button.addEventListener('click', () => {
 handleDirectionPress(dir);
+playButtonSound();
 button.classList.add('pressed');
 setTimeout(() => button.classList.remove('pressed'), 100); 
 });
@@ -434,8 +436,9 @@ button.style.borderRadius = '0';
 button.style.boxShadow = '3px 3px 0 var(--retro-black)';
 button.addEventListener('click', () => {
     handleCtrlPress();
+    playButtonSound();
     button.classList.add('pressed');
-    setTimeout(() => button.classList.remove('pressed'), 200);
+    setTimeout(() => button.classList.remove('pressed'), 100);
 });
 buttonContainer.appendChild(button);
 
@@ -1157,8 +1160,9 @@ button.style.borderRadius = '0'; // 사각형 버튼 모양
 button.style.boxShadow = '3px 3px 0 var(--retro-black)';
 button.addEventListener('click', () => {
     handlePrecisionTimeSpacePress();
+    playButtonSound();
     button.classList.add('pressed');
-    setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
+    setTimeout(() => button.classList.remove('pressed'), 200);
 });
 
 
