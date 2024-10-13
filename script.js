@@ -1341,7 +1341,7 @@ document.querySelectorAll('#rps-buttons button').forEach(button => {
 });
 
 resetTimerBar();
-
+}
 
 function handleRPSChoice(playerChoice, computerChoice, instruction) {
     // clearTimeout 제거 (타이머를 여기서 관리하지 않음)
