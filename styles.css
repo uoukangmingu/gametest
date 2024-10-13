@@ -329,7 +329,7 @@ body {
 }
 
 @media (max-width: 600px) {
-    .difficulty-btn {
+    .difficulty-btn, #rps-buttons button {
         font-size: 16px;
         padding: 10px 20px;
         margin: 5px;
