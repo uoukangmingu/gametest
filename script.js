@@ -573,12 +573,10 @@ function switchGameMode() {
     const modes = ['keys', 'directions', 'typing', 'pointing', 'color', 'ascend', 'hacking', 'precisionTime', 'rockPaperScissors'];
     
     if (isMobileDevice()) {
-        // 모바일에서는 'spin' 모드 제외
         const availableModes = modes.filter(mode => !recentModes.includes(mode));
         gameMode = availableModes[Math.floor(Math.random() * availableModes.length)];
     } else {
-        // 데스크톱에서는 모든 모드 포함
-        const allModes = [...modes, 'spin'];
+        const allModes = [...modes, 'hacking', 'spin'];
         const availableModes = allModes.filter(mode => !recentModes.includes(mode));
         gameMode = availableModes[Math.floor(Math.random() * availableModes.length)];
     }
@@ -607,9 +605,6 @@ function startRound() {
     if (existingDirectionButtons) existingDirectionButtons.remove();
     const existingCtrlButton = document.getElementById('mobile-ctrl-button');
     if (existingCtrlButton) existingCtrlButton.remove();
-
-    const existingHackingButtons = document.getElementById('mobile-hacking-buttons');
-    if (existingHackingButtons) existingHackingButtons.remove();
     const existingSpaceBarButton = document.getElementById('mobile-spacebar-button');
     if (existingSpaceBarButton) existingSpaceBarButton.remove();
 
@@ -635,8 +630,6 @@ function startRound() {
             createDirectionButtons();
         } else if (gameMode === 'typing') {
             createCtrlButton();
-        } else if (gameMode === 'hacking') {
-            createHackingButtons();
         } else if (gameMode === 'precisionTime') {
             createSpaceBarButton();
         }
@@ -1068,36 +1061,6 @@ function handleAscendClick(event) {
 
 let hackingCount = 0;
 const hackingGoal = 30;
-
-function createHackingButtons() {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.id = 'mobile-hacking-buttons';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.justifyContent = 'center';
-    buttonContainer.style.marginTop = '20px';
-
-    const hackingLetters = ['H', 'A', 'C', 'K', 'I', 'N', 'G'];
-    hackingLetters.forEach(letter => {
-        const button = document.createElement('button');
-        button.textContent = letter;
-        button.style.padding = '15px';
-        button.style.fontSize = '18px';
-        button.addEventListener('click', () => handleHackingButtonPress(letter));
-        buttonContainer.appendChild(button);
-    });
-
-    document.getElementById('game-container').appendChild(buttonContainer);
-}
-
-function handleHackingButtonPress(letter) {
-    hackingCount++;
-    createHackingEffect();
-    updateHackingDisplay();
-    if (hackingCount >= hackingGoal) {
-        playClearSound();
-        startRound();
-    }
-}
 
 function startHackingMode() {
     hideAllGameModes();
