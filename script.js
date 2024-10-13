@@ -1376,6 +1376,20 @@ function startRockPaperScissorsMode() {
     const rpsGame = document.getElementById('rps-game');
     rpsGame.style.display = 'flex';
     
+    // 모바일 환경 체크
+    if (isMobileDevice()) {
+        rpsGame.style.flexDirection = 'column'; 
+        rpsGame.style.alignItems = 'center';
+        
+        const rpsButtons = document.getElementById('rps-buttons');
+        rpsButtons.style.flexDirection = 'column';
+        rpsButtons.style.gap = '10px';
+    } else {
+        // 데스크탑 환경에서는 기존 레이아웃 유지
+        rpsGame.style.flexDirection = 'row';
+        rpsGame.style.justifyContent = 'center';
+    }
+    
     document.getElementById('rps-display').textContent = computerChoice;
     document.getElementById('rps-instruction').textContent = instruction;
     
@@ -1384,8 +1398,8 @@ function startRockPaperScissorsMode() {
     });
     
     resetTimerBar();
-    // 타이머 설정 부분 제거
 }
+
 
 function handleRPSChoice(playerChoice, computerChoice, instruction) {
     // clearTimeout 제거 (타이머를 여기서 관리하지 않음)
