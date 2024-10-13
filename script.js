@@ -522,97 +522,6 @@ let requiredSpins = 0;
 let lastAngle = 0;
 let rotations = 0;
 
-function createJoystick() {
-    const joystickContainer = document.createElement('div');
-    joystickContainer.id = 'joystick-container';
-    joystickContainer.style.width = '200px';
-    joystickContainer.style.height = '200px';
-    joystickContainer.style.borderRadius = '50%';
-    joystickContainer.style.backgroundColor = '#ddd';
-    joystickContainer.style.position = 'relative';
-    joystickContainer.style.margin = '20px auto';
-
-    const joystick = document.createElement('div');
-    joystick.id = 'joystick';
-    joystick.style.width = '60px';
-    joystick.style.height = '60px';
-    joystick.style.borderRadius = '50%';
-    joystick.style.backgroundColor = '#333';
-    joystick.style.position = 'absolute';
-    joystick.style.left = '70px';
-    joystick.style.top = '70px';
-
-    joystickContainer.appendChild(joystick);
-    document.getElementById('game-container').appendChild(joystickContainer);
-
-    let isDragging = false;
-    let startAngle = 0;
-    let currentAngle = 0;
-
-    joystick.addEventListener('touchstart', handleStart);
-    joystick.addEventListener('touchmove', handleMove);
-    joystick.addEventListener('touchend', handleEnd);
-
-    function handleStart(e) {
-        isDragging = true;
-        const touch = e.touches[0];
-        const center = {x: joystickContainer.offsetWidth / 2, y: joystickContainer.offsetHeight / 2};
-        startAngle = Math.atan2(touch.pageY - center.y, touch.pageX - center.x);
-    }
-
-function handleJoystickTouch(e) {
-    e.preventDefault(); // 기본 동작 방지
-    const touch = e.changedTouches[0];
-
-    if (e.type === 'touchstart') {
-        handleStart(touch);
-    } else if (e.type === 'touchmove') {
-        handleMove(touch);
-    } else if (e.type === 'touchend') {
-        handleEnd();
-    }
-}
-
-
-function handleMove(e) {
-    if (!isDragging) return;
-    const touch = e.touches[0];
-    const center = {x: joystickContainer.offsetWidth / 2, y: joystickContainer.offsetHeight / 2};
-    const angle = Math.atan2(touch.pageY - center.y, touch.pageX - center.x);
-    const angleDiff = angle - startAngle;
-    currentAngle = (currentAngle + angleDiff + 2 * Math.PI) % (2 * Math.PI);
-    startAngle = angle;
-
-    const radius = joystickContainer.offsetWidth / 2 - joystick.offsetWidth / 2;
-    const x = Math.cos(currentAngle) * radius + center.x - joystick.offsetWidth / 2;
-    const y = Math.sin(currentAngle) * radius + center.y - joystick.offsetHeight / 2;
-
-    joystick.style.left = `${x}px`;
-    joystick.style.top = `${y}px`;
-
-    // 회전 각도를 게임에 적용
-    handleSpinRotation(currentAngle);
-}
-
-    function handleEnd() {
-        isDragging = false;
-    }
-}
-
-function handleSpinRotation(angle) {
-    // 기존의 handleMouseMove 함수와 유사하게 동작하도록 구현
-    const normalizedAngle = (angle + Math.PI * 2) % (Math.PI * 2);
-    const degrees = (normalizedAngle * 180) / Math.PI;
-    
-    document.getElementById('spinner').style.transform = `rotate(${degrees}deg)`;
-    
-    if (Math.abs(degrees - targetDegree) < 5) {
-        playClearSound();
-        startRound();
-    }
-}
-
-
 function startSpinMode() {
     hideAllGameModes();
     gameMode = 'spin';
@@ -624,6 +533,44 @@ function startSpinMode() {
     document.getElementById('keys-display').style.display = 'none';
     document.getElementById('directions-display').style.display = 'none';
     document.getElementById('point-game').style.display = 'none';
+
+    if (isMobileDevice()) {
+        const spinArea = document.getElementById('spin-area');
+        let isDragging = false;
+        let startAngle = 0;
+        let currentAngle = 0;
+
+        spinArea.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            isDragging = true;
+            const touch = e.touches[0];
+            startAngle = Math.atan2(touch.pageY - spinArea.offsetTop, touch.pageX - spinArea.offsetLeft);
+        });
+
+        spinArea.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!isDragging) return;
+            const touch = e.touches[0];
+            const angle = Math.atan2(touch.pageY - spinArea.offsetTop, touch.pageX - spinArea.offsetLeft);
+            const angleDiff = angle - startAngle;
+            currentAngle += angleDiff;
+            startAngle = angle;
+
+            const degrees = (currentAngle * 180) / Math.PI;
+            document.getElementById('spinner').style.transform = `rotate(${degrees}deg)`;
+
+            if (Math.abs(degrees - targetDegree) < 5) {
+                playClearSound();
+                startRound();
+            }
+        });
+
+        spinArea.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+    } else {
+        document.getElementById('spin-area').addEventListener('mousemove', handleSpinMode);
+    }
 }
 
 function handleSpinMode(event) {
