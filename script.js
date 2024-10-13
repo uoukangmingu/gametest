@@ -415,30 +415,25 @@ function handleDirectionsMode(event) {
 }
 
 function createCtrlButton() {
-const buttonContainer = document.createElement('div');
-buttonContainer.id = 'mobile-ctrl-button';
-buttonContainer.style.display = 'flex';
-buttonContainer.style.justifyContent = 'center';
-buttonContainer.style.marginTop = '20px';
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'mobile-ctrl-button';
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.marginTop = '20px';
 
+    const button = document.createElement('button');
+    button.textContent = 'Ctrl';
+    button.style.padding = '15px 30px';
+    button.style.fontSize = '20px';
+    button.addEventListener('click', handleCtrlPress);
+    buttonContainer.appendChild(button);
 
-const button = document.createElement('button');
-button.textContent = 'Ctrl';
-button.classList.add('mobile-button');
-button.style.padding = '15px 30px';
-button.style.fontSize = '20px';
-button.addEventListener('click', handleCtrlPress);
-buttonContainer.appendChild(button);
-
-document.getElementById('game-container').appendChild(buttonContainer);
+    document.getElementById('game-container').appendChild(buttonContainer);
 }
 
 function handleCtrlPress() {
     typingCount++;
-    const keysDisplay = document.getElementById('keys-display');
-    if (keysDisplay) {
-        keysDisplay.textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
-    }
+    document.getElementById('keys-display').textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
     if (typingCount >= typingGoal) {
         playClearSound();
         startRound();
@@ -446,21 +441,13 @@ function handleCtrlPress() {
 }
 
 function handleTypingMode(event) {
-    if (isGameOver) return;
+    if (isGameOver) return; 
     if (event.key === 'Control' || event.code === 'ControlRight') {
         typingCount++;
-        const keysDisplay = document.getElementById('keys-display');
-        if (keysDisplay) {
-            keysDisplay.textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
-        }
+        document.getElementById('keys-display').textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
         if (typingCount >= typingGoal) {
-            const scoreDisplay = document.getElementById('score-value');
-            if (scoreDisplay) {
-                scoreDisplay.textContent = score;
-            }
-            playClearSound();
-            
-
+            document.getElementById('score-value').textContent = score;
+    playClearSound();
             startRound();
         }
     }
