@@ -871,9 +871,9 @@ function closeLeaderboard() {
 }
 
 let difficultyScores = {
-    '6000': 15,  // 쉬움
-    '3000': 30, // 보통
-    '1500': 60  // 어려움
+    '6000': 10,  // 쉬움
+    '3000': 20, // 보통
+    '1500': 80  // 어려움
 };
 
 function updateScore(difficulty) {
@@ -1132,16 +1132,21 @@ function createSpaceBarButton() {
     buttonContainer.style.display = 'flex';
     buttonContainer.style.justifyContent = 'center';
 
-    const button = document.createElement('button');
-    button.textContent = 'SPACE';
-    button.classList.add('mobile-button');
-    button.classList.add('pressed');
-
+const button = document.createElement('button');
+button.textContent = 'SPACE';
+button.classList.add('mobile-button');
+button.style.padding = '15px 50px';
+button.style.fontSize = '20px';
+button.style.backgroundColor = '#4CAF50';
+button.style.color = 'white';
+button.style.border = 'none';
+button.style.borderRadius = '5px';
 button.addEventListener('click', () => {
     handlePrecisionTimeSpacePress();
     button.classList.add('pressed');
-    setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
+    setTimeout(() => button.classList.remove('pressed'), 200);
 });
+
     
     buttonContainer.appendChild(button);
     document.body.appendChild(buttonContainer);
