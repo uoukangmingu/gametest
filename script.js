@@ -560,25 +560,25 @@ function createJoystick() {
         startAngle = Math.atan2(touch.pageY - center.y, touch.pageX - center.x);
     }
 
-    function handleMove(e) {
-        if (!isDragging) return;
-        const touch = e.touches[0];
-        const center = {x: joystickContainer.offsetWidth / 2, y: joystickContainer.offsetHeight / 2};
-        const angle = Math.atan2(touch.pageY - center.y, touch.pageX - center.x);
-        const angleDiff = angle - startAngle;
-        currentAngle += angleDiff;
-        startAngle = angle;
+function handleMove(e) {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const center = {x: joystickContainer.offsetWidth / 2, y: joystickContainer.offsetHeight / 2};
+    const angle = Math.atan2(touch.pageY - center.y, touch.pageX - center.x);
+    const angleDiff = angle - startAngle;
+    currentAngle = (currentAngle + angleDiff + 2 * Math.PI) % (2 * Math.PI);
+    startAngle = angle;
 
-        const radius = joystickContainer.offsetWidth / 2 - joystick.offsetWidth / 2;
-        const x = Math.cos(currentAngle) * radius + center.x - joystick.offsetWidth / 2;
-        const y = Math.sin(currentAngle) * radius + center.y - joystick.offsetHeight / 2;
+    const radius = joystickContainer.offsetWidth / 2 - joystick.offsetWidth / 2;
+    const x = Math.cos(currentAngle) * radius + center.x - joystick.offsetWidth / 2;
+    const y = Math.sin(currentAngle) * radius + center.y - joystick.offsetHeight / 2;
 
-        joystick.style.left = `${x}px`;
-        joystick.style.top = `${y}px`;
+    joystick.style.left = `${x}px`;
+    joystick.style.top = `${y}px`;
 
-        // 회전 각도를 게임에 적용
-        handleSpinRotation(currentAngle);
-    }
+    // 회전 각도를 게임에 적용
+    handleSpinRotation(currentAngle);
+}
 
     function handleEnd() {
         isDragging = false;
