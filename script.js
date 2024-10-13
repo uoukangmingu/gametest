@@ -425,14 +425,9 @@ buttonContainer.style.marginTop = '20px';
 const button = document.createElement('button');
 button.textContent = 'Ctrl';
 button.classList.add('mobile-button');
-button.classList.add('pressed');
 button.style.padding = '15px 30px';
 button.style.fontSize = '20px';
-button.addEventListener('click', () => {
-    handleCtrlPress();
-    button.classList.add('pressed');
-    setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
-});
+button.addEventListener('click', handleCtrlPress);
 buttonContainer.appendChild(button);
 
 document.getElementById('game-container').appendChild(buttonContainer);
