@@ -1321,32 +1321,30 @@ function startLogoAnimation() {
 }
 
 function startRockPaperScissorsMode() {
-    hideAllGameModes();
-    gameMode = 'rockPaperScissors';
-    const choices = ['rock', 'paper', 'scissors'];
-    const instructions = ['이겨라', '져라', '비겨라'];
-    
-    const computerChoice = choices[Math.floor(Math.random() * 3)];
-    const instruction = instructions[Math.floor(Math.random() * 3)];
-    
-    const rpsGame = document.getElementById('rps-game');
-    rpsGame.style.display = 'flex';
-    rpsGame.style.flexDirection = 'column'; // 세로 레이아웃으로 변경
-    rpsGame.style.alignItems = 'center';
-    
-    document.getElementById('rps-display').textContent = computerChoice;
-    document.getElementById('rps-instruction').textContent = instruction;
-    
+hideAllGameModes();
+gameMode = 'rockPaperScissors';
+const choices = ['rock', 'paper', 'scissors'];
+const instructions = ['이겨라', '져라', '비겨라'];
+
+
+const computerChoice = choices[Math.floor(Math.random() * 3)];
+const instruction = instructions[Math.floor(Math.random() * 3)];
+
+const rpsGame = document.getElementById('rps-game');
+rpsGame.style.display = 'flex';
+
+document.getElementById('rps-display').textContent = computerChoice;
+document.getElementById('rps-instruction').textContent = instruction;
+
     const rpsButtons = document.getElementById('rps-buttons');
     rpsButtons.style.flexDirection = 'column'; // 버튼들도 세로로 배치
     rpsButtons.style.gap = '10px';
-    
-    document.querySelectorAll('#rps-buttons button').forEach(button => {
-        button.onclick = (e) => handleRPSChoice(e.target.id, computerChoice, instruction);
-    });
-    
-    resetTimerBar();
-}
+
+document.querySelectorAll('#rps-buttons button').forEach(button => {
+    button.onclick = (e) => handleRPSChoice(e.target.id, computerChoice, instruction);
+});
+
+resetTimerBar();
 
 
 function handleRPSChoice(playerChoice, computerChoice, instruction) {
