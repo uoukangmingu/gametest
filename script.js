@@ -366,6 +366,32 @@ function handleDirectionsMode(event) {
     }
 }
 
+function createCtrlButton() {
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'mobile-ctrl-button';
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.marginTop = '20px';
+
+    const button = document.createElement('button');
+    button.textContent = 'Ctrl';
+    button.style.padding = '15px 30px';
+    button.style.fontSize = '20px';
+    button.addEventListener('click', handleCtrlPress);
+    buttonContainer.appendChild(button);
+
+    document.getElementById('game-container').appendChild(buttonContainer);
+}
+
+function handleCtrlPress() {
+    typingCount++;
+    document.getElementById('keys-display').textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
+    if (typingCount >= typingGoal) {
+        playClearSound();
+        startRound();
+    }
+}
+
 function handleTypingMode(event) {
     if (isGameOver) return; 
     if (event.key === 'Control' || event.code === 'ControlRight') {
@@ -539,6 +565,9 @@ function startRound() {
     if (existingButtons) existingButtons.remove();
     const existingDirectionButtons = document.getElementById('mobile-direction-buttons');
     if (existingDirectionButtons) existingDirectionButtons.remove();
+    const existingCtrlButton = document.getElementById('mobile-ctrl-button');
+    if (existingCtrlButton) existingCtrlButton.remove();
+
 
     if (gameMode === 'keys') {
         displayKeys();
@@ -552,6 +581,9 @@ function startRound() {
         }
     } else if (gameMode === 'typing') {
         startTypingMode();
+        if (isMobileDevice()) {
+            createCtrlButtons();
+        }
     } else if (gameMode === 'color') {
         startColorGameMode();
     } else if (gameMode === 'pointing') {
