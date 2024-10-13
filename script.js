@@ -176,7 +176,11 @@ function createMobileButtons() {
         button.style.margin = '0 5px';
         button.style.padding = '10px 20px';
         button.style.fontSize = '20px';
-        button.addEventListener('click', () => handleMobileKeyPress(letter));
+        button.addEventListener('click', () => {
+            handleMobileKeyPress(letter);
+            button.classList.add('pressed');  // 클래스 추가
+            setTimeout(() => button.classList.remove('pressed'), 200);  // 200ms 후 클래스 제거
+        });
         buttonContainer.appendChild(button);
     });
 

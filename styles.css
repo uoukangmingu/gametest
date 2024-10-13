@@ -941,3 +941,8 @@ body.hacking-mode {
     from { transform: translate(-50%, -50%) rotate(90deg); }
     to { transform: translate(-50%, -50%) rotate(450deg); }
 }
+
+.pressed {
+    background-color: #ddd;
+    transform: scale(0.95);
+}
