@@ -213,6 +213,7 @@ function createMobileButtons() {
     buttonLetters.forEach(letter => {
         const button = document.createElement('button');
         button.textContent = letter;
+        button.classList.add('mobile-button');
         button.style.margin = '0 5px';
         button.style.padding = '10px 20px';
         button.style.fontSize = '20px';
@@ -269,12 +270,12 @@ function createDirectionButtons() {
     directions.forEach(dir => {
         const button = document.createElement('button');
         button.textContent = dir.toUpperCase();
+        button.classList.add('mobile-button');
         button.style.padding = '15px';
         button.style.fontSize = '18px';
         button.style.gridArea = dir;
         button.addEventListener('click', () => handleDirectionPress(dir));
         buttonContainer.appendChild(button);
-        button.classList.add('mobile-button');
     });
 
     document.getElementById('game-container').appendChild(buttonContainer);
@@ -1128,6 +1129,7 @@ function createSpaceBarButton() {
 
     const button = document.createElement('button');
     button.textContent = 'SPACE';
+    button.classList.add('mobile-button');
     button.style.padding = '15px 50px';
     button.style.fontSize = '20px';
     button.style.backgroundColor = '#4CAF50';
