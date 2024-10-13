@@ -1082,7 +1082,6 @@ function createHackingButtons() {
         button.textContent = letter;
         button.style.padding = '15px';
         button.style.fontSize = '18px';
-        button.style.margin = '0 5px';
         button.addEventListener('click', () => handleHackingButtonPress(letter));
         buttonContainer.appendChild(button);
     });
