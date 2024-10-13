@@ -1339,18 +1339,24 @@ const instruction = instructions[Math.floor(Math.random() * 3)];
 const rpsGame = document.getElementById('rps-game');
 rpsGame.style.display = 'flex';
 
+    if (isMobileDevice()) {
+        rpsGame.style.flexDirection = 'column'; 
+        rpsGame.style.alignItems = 'center';
+        
+        const rpsButtons = document.getElementById('rps-buttons');
+        rpsButtons.style.flexDirection = 'column';
+        rpsButtons.style.gap = '10px';
+       }
+
 document.getElementById('rps-display').textContent = computerChoice;
 document.getElementById('rps-instruction').textContent = instruction;
-
-    const rpsButtons = document.getElementById('rps-buttons');
-    rpsButtons.style.flexDirection = 'column'; // 버튼들도 세로로 배치
-    rpsButtons.style.gap = '10px';
 
 document.querySelectorAll('#rps-buttons button').forEach(button => {
     button.onclick = (e) => handleRPSChoice(e.target.id, computerChoice, instruction);
 });
 
 resetTimerBar();
+// 타이머 설정 부분 제거
 }
 
 
