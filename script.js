@@ -1336,10 +1336,6 @@ rpsGame.style.display = 'flex';
 document.getElementById('rps-display').textContent = computerChoice;
 document.getElementById('rps-instruction').textContent = instruction;
 
-    const rpsButtons = document.getElementById('rps-buttons');
-    rpsButtons.style.flexDirection = 'column'; // 버튼들도 세로로 배치
-    rpsButtons.style.gap = '10px';
-
 document.querySelectorAll('#rps-buttons button').forEach(button => {
     button.onclick = (e) => handleRPSChoice(e.target.id, computerChoice, instruction);
 });
