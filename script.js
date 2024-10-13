@@ -687,6 +687,22 @@ function startRound() {
     const existingSpaceBarButton = document.getElementById('mobile-spacebar-button');
     if (existingSpaceBarButton) existingSpaceBarButton.remove();
 
+    const mobileButtonContainers = [
+        'mobile-buttons',
+        'mobile-direction-buttons',
+        'mobile-ctrl-button',
+        'joystick-container',
+        'mobile-hacking-buttons',
+        'mobile-spacebar-button'
+    ];
+
+    mobileButtonContainers.forEach(containerId => {
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.remove();
+        }
+    });
+
     if (isMobileDevice()) {
         if (gameMode === 'keys') {
             createMobileButtons();
