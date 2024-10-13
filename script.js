@@ -603,8 +603,7 @@ function startRound() {
     if (existingDirectionButtons) existingDirectionButtons.remove();
     const existingCtrlButton = document.getElementById('mobile-ctrl-button');
     if (existingCtrlButton) existingCtrlButton.remove();
-    const existingJoystick = document.getElementById('joystick-container');
-    if (existingJoystick) existingJoystick.remove();
+
     const existingHackingButtons = document.getElementById('mobile-hacking-buttons');
     if (existingHackingButtons) existingHackingButtons.remove();
     const existingSpaceBarButton = document.getElementById('mobile-spacebar-button');
@@ -638,7 +637,6 @@ function startRound() {
             createSpaceBarButton();
         }
     }
-
     if (gameMode === 'keys') {
         displayKeys();
     } else if (gameMode === 'directions') {
@@ -1321,26 +1319,26 @@ function startLogoAnimation() {
 }
 
 function startRockPaperScissorsMode() {
-    hideAllGameModes();
-    gameMode = 'rockPaperScissors';
-    const choices = ['rock', 'paper', 'scissors'];
-    const instructions = ['이겨라', '져라', '비겨라'];
-    
-    const computerChoice = choices[Math.floor(Math.random() * 3)];
-    const instruction = instructions[Math.floor(Math.random() * 3)];
-    
-    const rpsGame = document.getElementById('rps-game');
-    rpsGame.style.display = 'flex';
-    
-    document.getElementById('rps-display').textContent = computerChoice;
-    document.getElementById('rps-instruction').textContent = instruction;
-    
-    document.querySelectorAll('#rps-buttons button').forEach(button => {
-        button.onclick = (e) => handleRPSChoice(e.target.id, computerChoice, instruction);
-    });
-    
-    resetTimerBar();
-    // 타이머 설정 부분 제거
+hideAllGameModes();
+gameMode = 'rockPaperScissors';
+const choices = ['rock', 'paper', 'scissors'];
+const instructions = ['이겨라', '져라', '비겨라'];
+
+
+const computerChoice = choices[Math.floor(Math.random() * 3)];
+const instruction = instructions[Math.floor(Math.random() * 3)];
+
+const rpsGame = document.getElementById('rps-game');
+rpsGame.style.display = 'flex';
+
+document.getElementById('rps-display').textContent = computerChoice;
+document.getElementById('rps-instruction').textContent = instruction;
+
+document.querySelectorAll('#rps-buttons button').forEach(button => {
+    button.onclick = (e) => handleRPSChoice(e.target.id, computerChoice, instruction);
+});
+
+resetTimerBar();
 }
 
 function handleRPSChoice(playerChoice, computerChoice, instruction) {
@@ -1371,3 +1369,4 @@ function handleRPSChoice(playerChoice, computerChoice, instruction) {
         gameOver();
     }
 }
+
