@@ -1301,7 +1301,7 @@ function startLogoAnimation() {
     }
   })
   .add({
-    targets: '#game',
+    targets: '#FOCUS',
     filter: ['blur(10px)', 'blur(0px)'],
     opacity: [0, 1],
     duration: 2000,
@@ -1310,7 +1310,7 @@ function startLogoAnimation() {
     }
   })
   .add({
-    targets: '#focus',
+    targets: '#GAME',
     opacity: [0, 1],
     duration: 2000,
     begin: function() {
