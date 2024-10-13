@@ -719,7 +719,7 @@ function updateGameModeDisplay() {
             modeDisplay.textContent = 'Timing!\n타이밍에 맞게\n[스페이스바]를 눌러라!';
             break;
         case 'rockPaperScissors':
-            modeDisplay.textContent = '가위바위보!\n지시에 따라\n[가위][바위][보]를 선택하라!';
+            modeDisplay.textContent = '가위바위보!\n지시에 따라\n[가위][바위][보]를\n선택하라!';
             break;
     }
 }
