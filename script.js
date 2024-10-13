@@ -418,7 +418,7 @@ function createCtrlButton() {
 const button = document.createElement('button');
 button.textContent = 'Ctrl';
 button.classList.add('mobile-button');
-button.classList.add('pressed'); // 버튼 클릭 시 'pressed' 클래스 추가
+button.classList.add('pressed'); 
 button.style.padding = '15px 30px';
 button.style.fontSize = '20px';
 button.addEventListener('click', () => {
@@ -428,7 +428,8 @@ button.addEventListener('click', () => {
 });
 buttonContainer.appendChild(button);
 
-    document.getElementById('game-container').appendChild(buttonContainer);
+document.getElementById('game-container').appendChild(buttonContainer);
+
 }
 
 function handleCtrlPress() {
