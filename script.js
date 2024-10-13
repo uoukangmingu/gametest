@@ -271,12 +271,17 @@ function createDirectionButtons() {
         const button = document.createElement('button');
         button.textContent = dir.toUpperCase();
         button.classList.add('mobile-button');
+        button.classList.add('pressed'); 
         button.style.padding = '15px';
         button.style.fontSize = '18px';
         button.style.gridArea = dir;
-        button.addEventListener('click', () => handleDirectionPress(dir));
-        buttonContainer.appendChild(button);
-    });
+button.addEventListener('click', () => {
+handleDirectionPress(dir);
+button.classList.add('pressed');
+setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
+});
+buttonContainer.appendChild(button);
+});
 
     document.getElementById('game-container').appendChild(buttonContainer);
 }
@@ -1130,13 +1135,18 @@ function createSpaceBarButton() {
     const button = document.createElement('button');
     button.textContent = 'SPACE';
     button.classList.add('mobile-button');
+    button.classList.add('pressed');
     button.style.padding = '15px 50px';
     button.style.fontSize = '20px';
     button.style.backgroundColor = '#4CAF50';
     button.style.color = 'white';
     button.style.border = 'none';
     button.style.borderRadius = '5px';
-    button.addEventListener('click', handlePrecisionTimeSpacePress);
+button.addEventListener('click', () => {
+    handlePrecisionTimeSpacePress();
+    button.classList.add('pressed');
+    setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
+});
     
     buttonContainer.appendChild(button);
     document.body.appendChild(buttonContainer);
