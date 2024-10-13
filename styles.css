@@ -947,7 +947,7 @@ body.hacking-mode {
     transform: scale(0.95);
 }
 
-.mobile-button {
+.mobile-spacebar-button, .mobile-buttons, .mobile-direction-buttons {
     background-color: var(--retro-dark-green);
     color: var(--retro-beige);
     border: 2px solid var(--retro-black);
@@ -960,7 +960,7 @@ body.hacking-mode {
     transition: all 0.1s ease;
 }
 
-.mobile-button:active {
+.mobile-spacebar-button, .mobile-buttons, .mobile-direction-buttons:active {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0 var(--retro-black);
 }
