@@ -424,7 +424,6 @@ buttonContainer.style.marginTop = '20px';
 
 const button = document.createElement('button');
 button.textContent = 'Ctrl';
-button.classList.add('mobile-button');
 button.style.padding = '15px 30px';
 button.style.fontSize = '20px';
 button.addEventListener('click', handleCtrlPress);
@@ -434,12 +433,12 @@ document.getElementById('game-container').appendChild(buttonContainer);
 }
 
 function handleCtrlPress() {
-    typingCount++;
-    document.getElementById('keys-display').textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
-    if (typingCount >= typingGoal) {
-        playClearSound();
-        startRound();
-    }
+typingCount++;
+document.getElementById('keys-display').textContent = Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!;
+if (typingCount >= typingGoal) {
+playClearSound();
+startRound();
+}
 }
 
 function handleTypingMode(event) {
