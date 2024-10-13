@@ -435,7 +435,10 @@ document.getElementById('game-container').appendChild(buttonContainer);
 
 function handleCtrlPress() {
     typingCount++;
-    document.getElementById('keys-display').textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
+    const keysDisplay = document.getElementById('keys-display');
+    if (keysDisplay) {
+        keysDisplay.textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
+    }
     if (typingCount >= typingGoal) {
         playClearSound();
         startRound();
@@ -443,13 +446,21 @@ function handleCtrlPress() {
 }
 
 function handleTypingMode(event) {
-    if (isGameOver) return; 
+    if (isGameOver) return;
     if (event.key === 'Control' || event.code === 'ControlRight') {
         typingCount++;
-        document.getElementById('keys-display').textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
+        const keysDisplay = document.getElementById('keys-display');
+        if (keysDisplay) {
+            keysDisplay.textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
+        }
         if (typingCount >= typingGoal) {
-            document.getElementById('score-value').textContent = score;
-    playClearSound();
+            const scoreDisplay = document.getElementById('score-value');
+            if (scoreDisplay) {
+                scoreDisplay.textContent = score;
+            }
+            playClearSound();
+            
+
             startRound();
         }
     }
