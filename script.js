@@ -570,21 +570,25 @@ const recentModes = [];
 const RECENT_MODES_TO_REMEMBER = 3;
 
 function switchGameMode() {
-    const modes = ['keys', 'directions', 'typing', 'pointing', 'spin', 'color', 'ascend', 'hacking', 'precisionTime', 'rockPaperScissors'];
-    const availableModes = modes.filter(mode => !recentModes.includes(mode));
+    const modes = ['keys', 'directions', 'typing', 'pointing', 'color', 'ascend', 'hacking', 'precisionTime', 'rockPaperScissors'];
     
-    if (availableModes.length === 0) {
-        // 모든 모드가 최근에 사용되었다면 가장 오래된 것부터 제거
-        recentModes.shift();
+    if (isMobileDevice()) {
+        // 모바일에서는 'spin' 모드 제외
+        const availableModes = modes.filter(mode => !recentModes.includes(mode));
+        gameMode = availableModes[Math.floor(Math.random() * availableModes.length)];
+    } else {
+        // 데스크톱에서는 모든 모드 포함
+        const allModes = [...modes, 'spin'];
+        const availableModes = allModes.filter(mode => !recentModes.includes(mode));
+        gameMode = availableModes[Math.floor(Math.random() * availableModes.length)];
     }
     
-    gameMode = availableModes[Math.floor(Math.random() * availableModes.length)];
     recentModes.push(gameMode);
-    
     if (recentModes.length > RECENT_MODES_TO_REMEMBER) {
         recentModes.shift();
     }
 }
+
 function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
