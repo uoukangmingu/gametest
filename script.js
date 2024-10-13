@@ -213,6 +213,43 @@ function displayKeys() {
     }
 }
 
+function createDirectionButtons() {
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'mobile-direction-buttons';
+    buttonContainer.style.display = 'grid';
+    buttonContainer.style.gridTemplateAreas = 
+        '"   .    up     .   " ' +
+        '"left  down  right"';
+    buttonContainer.style.gap = '10px';
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.marginTop = '20px';
+
+    const directions = ['up', 'down', 'left', 'right'];
+    directions.forEach(dir => {
+        const button = document.createElement('button');
+        button.textContent = dir.toUpperCase();
+        button.style.padding = '15px';
+        button.style.fontSize = '18px';
+        button.style.gridArea = dir;
+        button.addEventListener('click', () => handleDirectionPress(dir));
+        buttonContainer.appendChild(button);
+    });
+
+    document.getElementById('game-container').appendChild(buttonContainer);
+}
+
+function handleDirectionPress(direction) {
+    if (currentDirections[0] === direction) {
+        currentDirections.shift();
+        if (currentDirections.length === 0) {
+            playClearSound();
+            startRound();
+        }
+    } else {
+        gameOver();
+    }
+}
+
 function displayDirections() {
     currentDirections = Array(3).fill().map(() => getRandomDirection());
     const directionsDisplay = document.getElementById('directions-display');
@@ -497,10 +534,12 @@ function startRound() {
     hideAllGameModes();
     switchGameMode();
     updateGameModeDisplay();
+
     const existingButtons = document.getElementById('mobile-buttons');
-    if (existingButtons) {
-        existingButtons.remove();
-    }
+    if (existingButtons) existingButtons.remove();
+    const existingDirectionButtons = document.getElementById('mobile-direction-buttons');
+    if (existingDirectionButtons) existingDirectionButtons.remove();
+
     if (gameMode === 'keys') {
         displayKeys();
         if (isMobileDevice()) {
@@ -508,6 +547,9 @@ function startRound() {
         }
     } else if (gameMode === 'directions') {
         displayDirections();
+        if (isMobileDevice()) {
+            createDirectionButtons();
+        }
     } else if (gameMode === 'typing') {
         startTypingMode();
     } else if (gameMode === 'color') {
