@@ -146,17 +146,67 @@ function getRandomKey() {
 function getRandomDirection() {
     return directions[Math.floor(Math.random() * directions.length)];
 }
+// 모바일용 버튼 생성 함수
+function createMobileButtons() {
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'mobile-buttons';
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.marginTop = '20px';
+
+    const allLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const buttonLetters = [...currentKeys];
+    
+    while (buttonLetters.length < 5) {
+        const randomLetter = allLetters[Math.floor(Math.random() * allLetters.length)];
+        if (!buttonLetters.includes(randomLetter)) {
+            buttonLetters.push(randomLetter);
+        }
+    }
+
+    // Fisher-Yates 셔플 알고리즘
+    for (let i = buttonLetters.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [buttonLetters[i], buttonLetters[j]] = [buttonLetters[j], buttonLetters[i]];
+    }
+
+    buttonLetters.forEach(letter => {
+        const button = document.createElement('button');
+        button.textContent = letter;
+        button.style.margin = '0 5px';
+        button.style.padding = '10px 20px';
+        button.style.fontSize = '20px';
+        button.addEventListener('click', () => handleMobileKeyPress(letter));
+        buttonContainer.appendChild(button);
+    });
+
+    document.getElementById('game-container').appendChild(buttonContainer);
+}
+
+// 모바일 버튼 클릭 처리 함수
+function handleMobileKeyPress(letter) {
+    if (currentKeys.includes(letter)) {
+        currentKeys = currentKeys.filter(key => key !== letter);
+        if (currentKeys.length === 0) {
+            playClearSound();
+            startRound();
+        }
+    }
+}
 
 function displayKeys() {
     currentKeys = [getRandomKey(), getRandomKey()];
     const keyDisplay = document.getElementById('keys-display');
     keyDisplay.textContent = currentKeys.join(' ');
     keyDisplay.classList.remove('shake');
-    void keyDisplay.offsetWidth; // 리플로우 강제 발생
+    void keyDisplay.offsetWidth;
     keyDisplay.classList.add('shake');
-    document.getElementById('directions-display').style.    display = 'none';
+    document.getElementById('directions-display').style.display = 'none';
     document.getElementById('point-game').style.display = 'none';
     keyDisplay.style.display = 'block';
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        createMobileButtons();
+    }
 }
 
 function displayDirections() {
@@ -442,6 +492,9 @@ function startRound() {
     updateGameModeDisplay();
     if (gameMode === 'keys') {
         displayKeys();
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            createMobileButtons();
+        }
     } else if (gameMode === 'directions') {
         displayDirections();
     } else if (gameMode === 'typing') {
