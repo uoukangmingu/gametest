@@ -1136,12 +1136,7 @@ function createSpaceBarButton() {
     button.textContent = 'SPACE';
     button.classList.add('mobile-button');
     button.classList.add('pressed');
-    button.style.padding = '15px 50px';
-    button.style.fontSize = '20px';
-    button.style.backgroundColor = '#4CAF50';
-    button.style.color = 'white';
-    button.style.border = 'none';
-    button.style.borderRadius = '5px';
+
 button.addEventListener('click', () => {
     handlePrecisionTimeSpacePress();
     button.classList.add('pressed');
