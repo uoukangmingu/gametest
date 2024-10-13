@@ -1346,10 +1346,6 @@ function startRockPaperScissorsMode() {
         const rpsButtons = document.getElementById('rps-buttons');
         rpsButtons.style.flexDirection = 'column';
         rpsButtons.style.gap = '10px';
-    } else {
-        // 데스크탑 환경에서는 기존 레이아웃 유지
-        rpsGame.style.flexDirection = 'row';
-        rpsGame.style.justifyContent = 'center';
     }
     
     document.getElementById('rps-display').textContent = computerChoice;
