@@ -424,7 +424,7 @@ button.style.fontSize = '20px';
 button.addEventListener('click', () => {
     handleCtrlPress();
     button.classList.add('pressed');
-    setTimeout(() => button.classList.remove('pressed'), 200); // 200ms 후 'pressed' 클래스 제거
+    setTimeout(() => button.classList.remove('pressed'), 50);
 });
 buttonContainer.appendChild(button);
 
