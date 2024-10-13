@@ -10,6 +10,42 @@ const directions = ['left', 'up', 'right', 'down'];
 let usedKeys = [];
 let currentMusic = null;
 
+function enforcePortraitMode() {
+    if (isMobileDevice()) {
+        const lockPortraitOrientation = () => {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('portrait').catch(() => {
+                    console.log('화면 방향 고정을 지원하지 않는 기기입니다.');
+                });
+            }
+        };
+
+        window.addEventListener('load', lockPortraitOrientation);
+        window.addEventListener('orientationchange', lockPortraitOrientation);
+
+        // CSS를 이용해 세로 모드 강제
+        const style = document.createElement('style');
+        style.textContent = `
+            @media screen and (orientation: landscape) {
+                body {
+                    transform: rotate(-90deg);
+                    transform-origin: left top;
+                    width: 100vh;
+                    height: 100vw;
+                    overflow-x: hidden;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// 게임 시작 시 이 함수를 호출
+enforcePortraitMode();
+
 function playMusic(difficulty) {
     if (currentMusic) {
         currentMusic.pause();
@@ -646,6 +682,10 @@ function startRound() {
     if (existingCtrlButton) existingCtrlButton.remove();
     const existingJoystick = document.getElementById('joystick-container');
     if (existingJoystick) existingJoystick.remove();
+    const existingHackingButtons = document.getElementById('mobile-hacking-buttons');
+    if (existingHackingButtons) existingHackingButtons.remove();
+    const existingSpaceBarButton = document.getElementById('mobile-spacebar-button');
+    if (existingSpaceBarButton) existingSpaceBarButton.remove();
 
     if (isMobileDevice()) {
         if (gameMode === 'keys') {
@@ -656,6 +696,10 @@ function startRound() {
             createCtrlButton();
         } else if (gameMode === 'spin') {
             createJoystick();
+        } else if (gameMode === 'hacking') {
+            createHackingButtons();
+        } else if (gameMode === 'precisionTime') {
+            createSpaceBarButton();
         }
     }
 
@@ -1086,6 +1130,38 @@ function handleAscendClick(event) {
 
 let hackingCount = 0;
 const hackingGoal = 30;
+
+function createHackingButtons() {
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'mobile-hacking-buttons';
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.marginTop = '20px';
+
+    const hackingLetters = ['H', 'A', 'C', 'K', 'I', 'N', 'G'];
+    hackingLetters.forEach(letter => {
+        const button = document.createElement('button');
+        button.textContent = letter;
+        button.style.padding = '15px';
+        button.style.fontSize = '18px';
+        button.style.margin = '0 5px';
+        button.addEventListener('click', () => handleHackingButtonPress(letter));
+        buttonContainer.appendChild(button);
+    });
+
+    document.getElementById('game-container').appendChild(buttonContainer);
+}
+
+function handleHackingButtonPress(letter) {
+    hackingCount++;
+    createHackingEffect();
+    updateHackingDisplay();
+    if (hackingCount >= hackingGoal) {
+        playClearSound();
+        startRound();
+    }
+}
+
 function startHackingMode() {
     hideAllGameModes();
     gameMode = 'hacking';
@@ -1135,7 +1211,49 @@ document.getElementById('fullscreen').addEventListener('click', () => {
     }
 });
 
-// Precision Time 게임 모드
+
+function createSpaceBarButton() {
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'mobile-spacebar-button';
+    buttonContainer.style.position = 'fixed';
+    buttonContainer.style.bottom = '20px';
+    buttonContainer.style.left = '0';
+    buttonContainer.style.width = '100%';
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'center';
+
+    const button = document.createElement('button');
+    button.textContent = 'SPACE';
+    button.style.padding = '15px 50px';
+    button.style.fontSize = '20px';
+    button.style.backgroundColor = '#4CAF50';
+    button.style.color = 'white';
+    button.style.border = 'none';
+    button.style.borderRadius = '5px';
+    button.addEventListener('click', handlePrecisionTimeSpacePress);
+    
+    buttonContainer.appendChild(button);
+    document.body.appendChild(buttonContainer);
+}
+
+function handlePrecisionTimeSpacePress() {
+    const cursor = document.getElementById('pt-cursor');
+    const target = document.getElementById('pt-target');
+    const cursorRect = cursor.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    
+    if (cursorRect.right > targetRect.left && cursorRect.left < targetRect.right) {
+        playClearSound();
+        score += difficultyScores[currentDifficulty];
+        document.getElementById('score-value').textContent = score;
+        document.getElementById('precision-time-game').stopAnimation();
+        startRound();
+    } else {
+        document.getElementById('precision-time-game').stopAnimation();
+        gameOver();
+    }
+}
+
 function startPrecisionTimeMode() {
     hideAllGameModes();
     gameMode = 'precisionTime';
