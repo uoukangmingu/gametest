@@ -560,6 +560,20 @@ function createJoystick() {
         startAngle = Math.atan2(touch.pageY - center.y, touch.pageX - center.x);
     }
 
+function handleJoystickTouch(e) {
+    e.preventDefault(); // 기본 동작 방지
+    const touch = e.changedTouches[0];
+
+    if (e.type === 'touchstart') {
+        handleStart(touch);
+    } else if (e.type === 'touchmove') {
+        handleMove(touch);
+    } else if (e.type === 'touchend') {
+        handleEnd();
+    }
+}
+
+
 function handleMove(e) {
     if (!isDragging) return;
     const touch = e.touches[0];
@@ -712,6 +726,9 @@ function startRound() {
             createCtrlButton();
         } else if (gameMode === 'spin') {
             createJoystick();
+            joystickContainer.addEventListener('touchstart', handleJoystickTouch);
+            joystickContainer.addEventListener('touchmove', handleJoystickTouch);
+            joystickContainer.addEventListener('touchend', handleJoystickTouch);
         } else if (gameMode === 'hacking') {
             createHackingButtons();
         } else if (gameMode === 'precisionTime') {
