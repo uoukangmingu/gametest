@@ -482,6 +482,9 @@ function switchGameMode() {
         recentModes.shift();
     }
 }
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 
 
 function startRound() {
@@ -490,9 +493,13 @@ function startRound() {
     hideAllGameModes();
     switchGameMode();
     updateGameModeDisplay();
+    const existingButtons = document.getElementById('mobile-buttons');
+    if (existingButtons) {
+        existingButtons.remove();
+    }
     if (gameMode === 'keys') {
         displayKeys();
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        if (isMobileDevice()) {
             createMobileButtons();
         }
     } else if (gameMode === 'directions') {
