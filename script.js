@@ -461,12 +461,12 @@ function handleTypingMode(event) {
         typingCount++;
         document.getElementById('keys-display').textContent = `Ctrl 키를 ${typingGoal - typingCount}번 더 누르세요!`;
         if (typingCount >= typingGoal) {
-            document.getElementById('score-value').textContent = score;
-    playClearSound();
+            playClearSound();
             startRound();
         }
     }
 }
+
 
 function handlePointingMode(event) {
     if (isGameOver) return; 
@@ -584,14 +584,16 @@ function handleSpinMode(event) {
         document.getElementById('current-spins').textContent = spinCount;
         rotations = 0;
 
-if (spinCount >= requiredSpins) {
-    document.getElementById('score-value').textContent = score;
-    playClearSound();
-    startRound();
+        if (spinCount >= requiredSpins) {
+            document.getElementById('score-value').textContent = score;
+            playClearSound();
+            startRound();
+        }
+    }
+
+    window.requestAnimationFrame(handleSpinMode);
 }
 
-    }
-}
 
 const recentModes = [];
 const RECENT_MODES_TO_REMEMBER = 3;
@@ -1177,15 +1179,16 @@ function handlePrecisionTimeSpacePress() {
     const cursorRect = cursor.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
     
-    if (cursorRect.right > targetRect.left && cursorRect.left < targetRect.right) {
+if (cursorRect.right > targetRect.left && cursorRect.left < targetRect.right) {
         playClearSound();
         score += difficultyScores[currentDifficulty];
         document.getElementById('score-value').textContent = score;
         document.getElementById('precision-time-game').stopAnimation();
         startRound();
     } else {
-        document.getElementById('precision-time-game').stopAnimation();
-        gameOver();
+document.getElementById('precision-time-game').stopAnimation();
+gameOver();
+document.getElementById('mobile-spacebar-button').remove();
     }
 }
 
