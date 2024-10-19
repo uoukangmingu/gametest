@@ -349,18 +349,15 @@ function resetTimerBar() {
 
 
 function hideAllGameModes() {
-    document.getElementById('keys-display').style.display = 'none';
-    document.getElementById('directions-display').style.display = 'none';
-    document.getElementById('point-game').style.display = 'none';
-    document.getElementById('spin-game').style.display = 'none';
-    document.getElementById('color-game').style.display = 'none'; 
-    document.getElementById('ascend').style.display = 'none';
-    document.getElementById('precision-time-game').style.display = 'none';
-    document.getElementById('rps-game').style.display = 'none';
-    document.getElementById('hacking-mode').style.display = 'none';
-    document.getElementById('balance-game').style.display = 'none';
+document.getElementById('keys-display').style.display = 'none';
+document.getElementById('directions-display').style.display = 'none';
+document.getElementById('point-game').style.display = 'none';
+document.getElementById('spin-game').style.display = 'none';
+document.getElementById('color-game').style.display = 'none'; 
+document.getElementById('ascend').style.display = 'none';
+document.getElementById('precision-time-game').style.display = 'none';
+document.getElementById('rps-game').style.display = 'none';
 }
-
 
 function handleKeyPress(event) {
     if (isGameOver) return;  // 게임 오버 상태면 키 입력 무시
@@ -600,7 +597,7 @@ const recentModes = [];
 const RECENT_MODES_TO_REMEMBER = 3;
 
 function switchGameMode() {
-    const modes = ['keys', 'directions', 'typing', 'pointing', 'color', 'ascend', 'precisionTime', 'rockPaperScissors', 'balance'];
+    const modes = ['keys', 'directions', 'typing', 'pointing', 'color', 'ascend', 'precisionTime', 'rockPaperScissors'];
     
     if (isMobileDevice()) {
         const availableModes = modes.filter(mode => mode !== 'hacking' && mode !== 'spin');
@@ -618,16 +615,13 @@ function switchGameMode() {
 }
 
 
-
-
 function startRound() {
     isGameOver = false; 
     createModeDisplay();
     hideAllGameModes();
     switchGameMode();
     updateGameModeDisplay();
-
-    // 기존 버튼 제거
+    
     const existingButtons = document.getElementById('mobile-buttons');
     if (existingButtons) existingButtons.remove();
     const existingDirectionButtons = document.getElementById('mobile-direction-buttons');
@@ -647,7 +641,7 @@ function startRound() {
     mobileButtonContainers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
-            container.innerHTML = '';
+            container.innerHTML = ''; // 버튼들을 모두 제거
         }
     });
 
@@ -660,11 +654,8 @@ function startRound() {
             createCtrlButton();
         } else if (gameMode === 'precisionTime') {
             createSpaceBarButton();
-        } else if (gameMode === 'balance') {
-            createBalanceButtons();
         }
     }
-
     if (gameMode === 'keys') {
         displayKeys();
     } else if (gameMode === 'directions') {
@@ -685,8 +676,6 @@ function startRound() {
         startPrecisionTimeMode();
     } else if (gameMode === 'rockPaperScissors') {
         startRockPaperScissorsMode();
-    } else if (gameMode === 'balance') {
-        startBalanceMode();
     }
     
     resetTimerBar();
@@ -696,8 +685,6 @@ function startRound() {
     score += difficultyScores[currentDifficulty];
     document.getElementById('score-value').textContent = score;
 }
-
-
 
 
 
@@ -755,9 +742,6 @@ function updateGameModeDisplay() {
             break;
         case 'rockPaperScissors':
             modeDisplay.textContent = '가위바위보!\n지시에 따라\n[가위][바위][보]를 선택하라!';
-            break;
-        case 'balance':
-            modeDisplay.textContent = 'Balance!\n방향키로 막대의 균형을\n유지하여 공을 떨어뜨리지 마라!';
             break;
     }
 }
@@ -1394,187 +1378,4 @@ function handleRPSChoice(playerChoice, computerChoice, instruction) {
     } else {
         gameOver();
     }
-}
-
-
-
-let canvas, ctx;
-let balanceAngle = 0;
-let ball = { x: 150, y: 50, radius: 10, vx: 0, vy: 0 };
-const gravity = 0.2;
-let balanceGameTimer;
-
-function startBalanceMode() {
-    gameMode = 'balance';
-    
-    // 기존 게임 컨테이너 찾기
-    const gameContainer = document.getElementById('game-container');
-    
-    // 캔버스 생성 및 설정
-    canvas = document.createElement('canvas');
-    canvas.width = gameContainer.clientWidth;
-    canvas.height = gameContainer.clientHeight;
-    canvas.style.display = 'block';
-    
-    // 게임 컨테이너에 캔버스 추가
-    gameContainer.innerHTML = '';
-    gameContainer.appendChild(canvas);
-    
-    ctx = canvas.getContext('2d');
-
-    // 공 초기화
-    ball.x = canvas.width / 2;
-    ball.y = 50;
-    ball.vx = (Math.random() - 0.5) * 2;
-    ball.vy = 0;
-
-    // 이벤트 리스너 추가
-    document.addEventListener('keydown', handleBalanceKeyDown);
-    document.addEventListener('keyup', handleBalanceKeyUp);
-
-    if (isMobileDevice()) {
-        createBalanceButtons();
-    }
-
-    balanceGameTimer = setTimeout(() => {
-        playClearSound();
-        score += difficultyScores[currentDifficulty];
-        document.getElementById('score-value').textContent = score;
-        startRound();
-    }, timeLimit);
-
-    gameLoop();
-}
-
-
-function gameLoop() {
-    updateGame();
-    drawGame();
-    requestAnimationFrame(gameLoop);
-}
-
-function updateGame() {
-    // 중력은 항상 아래 방향으로
-    ball.vy += gravity;
-
-    // 막대의 움직임에 따른 가속도
-    ball.vx += Math.sin(balanceAngle) * gravity;
-
-    // 위치 업데이트
-    ball.x += ball.vx;
-    ball.y += ball.vy;
-
-    // 막대와의 충돌 처리
-    let barY = canvas.height - 60 + Math.tan(balanceAngle) * (ball.x - canvas.width / 2);
-    if (ball.y + ball.radius > barY) {
-        // 충돌 지점으로 공 위치 조정
-        ball.y = barY - ball.radius;
-
-        // 막대의 법선 벡터 계산
-        let normalX = -Math.sin(balanceAngle);
-        let normalY = Math.cos(balanceAngle);
-
-        // 입사 벡터와 법선 벡터의 내적
-        let dotProduct = ball.vx * normalX + ball.vy * normalY;
-
-        // 반사 벡터 계산
-        ball.vx = ball.vx - 2 * dotProduct * normalX;
-        ball.vy = ball.vy - 2 * dotProduct * normalY;
-
-        // 에너지 손실 (반발 계수)
-        let restitution = 0.8;
-        ball.vx *= restitution;
-        ball.vy *= restitution;
-    }
-
-    // 벽과의 충돌 처리
-    if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
-        ball.vx = -ball.vx * 0.8;
-        ball.x = ball.x - ball.radius < 0 ? ball.radius : canvas.width - ball.radius;
-    }
-
-// 게임 오버 체크
-if (ball.y > canvas.height) {
-    gameOver();
-    return;
-}
-}
-
-
-function drawGame() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // 막대 그리기
-    ctx.save();
-    ctx.translate(canvas.width / 2, canvas.height - 50);
-ctx.rotate(balanceAngle);
-ctx.fillStyle = 'brown';
-ctx.fillRect(-75, -5, 150, 10);
-ctx.restore();
-
-// 공 그리기
-ctx.beginPath();
-ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-ctx.fillStyle = 'red';
-ctx.fill();
-}
-
-function handleBalanceKeyDown(event) {
-if (event.key === 'ArrowLeft') {
-balanceAngle = Math.max(balanceAngle - 0.1, -Math.PI / 4);
-} else if (event.key === 'ArrowRight') {
-balanceAngle = Math.min(balanceAngle + 0.1, Math.PI / 4);
-}
-}
-
-function handleBalanceKeyUp(event) {
-if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-balanceAngle = 0;
-}
-}
-
-function createBalanceButtons() {
-    const gameContainer = document.getElementById('game-container');
-    const buttonContainer = document.createElement('div');
-    buttonContainer.id = 'mobile-balance-buttons';
-    buttonContainer.style.position = 'absolute';
-    buttonContainer.style.bottom = '20px';
-    buttonContainer.style.left = '0';
-    buttonContainer.style.width = '100%';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.justifyContent = 'space-around';
-
-
-const leftButton = createButton('←', () => handleBalanceButtonPress('left'));
-const rightButton = createButton('→', () => handleBalanceButtonPress('right'));
-
-buttonContainer.appendChild(leftButton);
-buttonContainer.appendChild(rightButton);
-gameContainer.appendChild(buttonContainer);
-}
-
-
-function createButton(text, onClick) {
-    const button = document.createElement('button');
-    button.textContent = text;
-    button.style.fontSize = '24px';
-    button.style.padding = '10px 20px';
-    button.style.margin = '0 10px';
-    button.style.backgroundColor = '#4CAF50';
-    button.style.color = 'white';
-    button.style.border = 'none';
-    button.style.borderRadius = '5px';
-    button.style.cursor = 'pointer';
-    button.addEventListener('touchstart', onClick);
-    button.addEventListener('touchend', () => balanceAngle = 0);
-    return button;
-}
-
-
-function handleBalanceButtonPress(direction) {
-if (direction === 'left') {
-balanceAngle = Math.max(balanceAngle - 0.1, -Math.PI / 4);
-} else if (direction === 'right') {
-balanceAngle = Math.min(balanceAngle + 0.1, Math.PI / 4);
-}
 }

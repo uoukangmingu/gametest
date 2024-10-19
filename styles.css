@@ -22,17 +22,62 @@ body {
         var(--retro-black) 10px,
         var(--retro-black) 20px
     );
+    filter: contrast(1.2) brightness(0.9);
+    transform: perspective(500px) rotateX(3deg);
+    animation: screenFlicker 2s infinite;
+    position: relative;
+    overflow: hidden;
 }
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    z-index: 9999;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: url('img/noise.png');
+    opacity: 0.1;
+    z-index: 10000;
+}
+
+@keyframes screenFlicker {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-0.1px, 0.1px); }
+}
+
 .retro-button {
     cursor: url('img/mouse1.png'), auto;
 }
 
 .retro-button:hover {
-    cursor: url('img/mouse2.png'), pointer;
+    cursor: url('img/mousehover.png'), pointer;
 }
 
 #game-container {
-    overflow: hidden; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
     width: 90vw;
     max-width: 600px;
     aspect-ratio: 3 / 4;
@@ -105,8 +150,6 @@ body {
     border-top-color: var(--retro-light-green);
     top: -15px;
 }
-
-
 
 #timer-bar {
     width: 200px;
@@ -191,7 +234,7 @@ body {
 #restart-button:hover {
     transform: translateY(2px);
     box-shadow: 0 3px 0 var(--retro-dark-green);
-    cursor: url('img/mouse2.png'), pointer;
+    cursor: url('img/mousehover.png'), pointer;
 }
 
 #restart-button:active {
@@ -224,7 +267,7 @@ body {
 
 #target:hover {
     transform: scale(1.1);
-    cursor: url('img/mouse2.png'), pointer;
+    cursor: url('img/mousehover.png'), pointer;
 }
 
 @keyframes score-pop {
@@ -288,17 +331,17 @@ body {
     font-weight: bold; /* 글씨를 굵게 */
 }
 
-
 .difficulty-btn:hover, #main-menu-button:hover {
     transform: translateY(2px);
     box-shadow: 0 3px 0 #333;
-    cursor: url('img/mouse2.png'), pointer;
+    cursor: url('img/mousehover.png'), pointer;
 }
 
 #countdown {
     text-align: center;
     font-size: 48px;
 }
+
 #restart-button, #main-menu-button {
     font-family: 'Press Start 2P', cursive;
     font-size: 18px;
@@ -316,7 +359,7 @@ body {
 #restart-button:hover, #main-menu-button:hover {
     transform: translateY(2px);
     box-shadow: 0 3px 0 var(--retro-dark-green);
-    cursor: url('img/mouse2.png'), pointer;
+    cursor: url('img/mousehover.png'), pointer;
 }
 
 #restart-button:active, #main-menu-button:active {
@@ -335,6 +378,7 @@ body {
         margin: 5px;
     }
 }
+
 #spin-game {
     width: 100%;
     height: 300px;
@@ -373,6 +417,7 @@ body {
     font-size: 18px;
     color: var(--retro-beige);
 }
+
 #game-container {
     display: flex;
     flex-direction: column;
@@ -395,9 +440,8 @@ body {
 }
 .color-tile:hover {
     transform: scale(1.05);
-    cursor: url('img/mouse2.png'), pointer;
+    cursor: url('img/mousehover.png'), pointer;
 }
-
 
 @keyframes pulse {
   0% { transform: scale(1); }
@@ -482,9 +526,6 @@ body {
     }
 }
 
-
-
-
 #game-container {
     position: relative;
 }
@@ -550,7 +591,7 @@ body {
 }
 
 #main-score-list li {
-    text-align: centred;
+    text-align: centered;
     padding-left: 20px;
     position: relative;
     margin-bottom: 5px;
@@ -592,7 +633,6 @@ body {
     height: 15px;
     background: #040D03;
     outline: none;
-
 }
 
 #volumeControl::-webkit-slider-thumb {
@@ -623,9 +663,9 @@ body {
   max-width: 80%;
   max-height: 80%;
   overflow-y: auto;
-    z-index: 2000;
+  z-index: 2000;
   animation: fadeIn 0.5s ease-out;
-  text-align: center; /* 텍스트 중앙 정렬 */
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -651,7 +691,7 @@ body {
 #next-step:hover, #past-step:hover, #close-tutorial:hover {
   transform: translateY(2px);
   box-shadow: 0 1px 0 var(--retro-dark-green);
-    cursor: url('img/mouse2.png'), pointer;
+  cursor: url('img/mousehover.png'), pointer;
 }
 
 #tutorial-content {
@@ -671,7 +711,6 @@ body {
   
   #tutorial-content {
     font-size: 12px;
-
   }
 }
 
@@ -713,8 +752,6 @@ body {
     }
 }
 
-
-
 .ascend-point {
     position: absolute;
     width: 100px;
@@ -735,8 +772,9 @@ body {
 
 .ascend-point:hover {
     background-color: var(--retro-dark-green);
-    cursor: url('img/mouse2.png'), pointer;
+    cursor: url('img/mousehover.png'), pointer;
 }
+
 #hacking-mode {
     display: none;
 }
@@ -791,14 +829,13 @@ body.hacking-mode {
     color: var(--retro-light-green); 
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    cursor: url('img/mouse2.png'), pointer;
+    cursor: url('img/mousehover.png'), pointer;
 }
 
 #fullscreen::before {
     content: "\26F6";
     font-size: 24px;
 }
-
 
 #precision-time-game {
     width: 80%;
@@ -964,5 +1001,3 @@ body.hacking-mode {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0 var(--retro-black);
 }
-
-
