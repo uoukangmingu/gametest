@@ -1379,3 +1379,58 @@ function handleRPSChoice(playerChoice, computerChoice, instruction) {
         gameOver();
     }
 }
+function startRotatingScreen() {
+    document.getElementById('game-container').classList.add('rotate');
+    setTimeout(() => {
+        document.getElementById('game-container').classList.remove('rotate');
+    }, 10000); // 10초 동안 회전
+}
+
+// 게임 후반부에 호출
+setTimeout(startRotatingScreen, 60000); // 60초 후에 회전 시작
+function startShakingScreen() {
+    document.getElementById('game-container').classList.add('shake');
+    setTimeout(() => {
+        document.getElementById('game-container').classList.remove('shake');
+    }, 5000); // 5초 동안 흔들림
+}
+
+// 일정 시간 후 호출
+setTimeout(startShakingScreen, 90000); // 90초 후에 흔들림 시작
+function createObstacle() {
+    const obstacle = document.createElement('div');
+    obstacle.classList.add('obstacle');
+    obstacle.style.position = 'absolute';
+    obstacle.style.top = Math.random() * 80 + '%';
+    obstacle.style.left = Math.random() * 80 + '%';
+    document.getElementById('game-container').appendChild(obstacle);
+
+    setTimeout(() => obstacle.remove(), 4000); // 4초 후 장애물 제거
+}
+
+setInterval(createObstacle, 15000); // 15초마다 장애물 생성
+function startScreenEffects() {
+    document.body.classList.add('blur-effect');
+    setTimeout(() => {
+        document.body.classList.remove('blur-effect');
+    }, 3000); // 3초 동안 흐림
+}
+
+setTimeout(startScreenEffects, 120000); // 120초 후 효과 시작
+function playRandomSound() {
+    const sounds = ['sound1.mp3', 'sound2.mp3', 'sound3.mp3'];
+    const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+    const audio = new Audio(randomSound);
+    audio.play();
+}
+
+setInterval(playRandomSound, 20000); // 20초마다 랜덤 소리 재생
+function resizeScreen() {
+    const gameContainer = document.getElementById('game-container');
+    gameContainer.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+        gameContainer.style.transform = 'scale(1)';
+    }, 3000); // 3초 동안 화면 작아짐
+}
+
+setTimeout(resizeScreen, 150000); // 150초 후에 화면 크기 변경
